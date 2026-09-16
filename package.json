@@ -1,0 +1,60 @@
+{
+  "name": "global-eagle",
+  "productName": "全球鹰 Global Eagle",
+  "version": "1.0.0",
+  "description": "全球鹰 Global Eagle · AI 外贸增长操作系统（OpenClaw Agent Cluster）",
+  "main": "desktop/main.js",
+  "author": "simieye",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist:mac": "electron-builder --mac dmg",
+    "dist:dir": "electron-builder --mac dir"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.simieye.global-eagle",
+    "productName": "Global Eagle",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "desktop/**/*",
+      "index.html",
+      "assets/**/*",
+      "README.md",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.business",
+      "identity": null
+    },
+    "dmg": {
+      "title": "全球鹰 Global Eagle",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  }
+}
