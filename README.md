@@ -11,6 +11,44 @@ python3 -m http.server 8123
 # 浏览器打开 http://localhost:8123
 ```
 
+### 桌面版（macOS DMG 安装包）
+
+```bash
+npm install          # 安装 electron + electron-builder
+npm run dist:mac     # 生成 release/Global Eagle-1.0.0-arm64.dmg（Intel 机器会同时产出 x64）
+```
+
+Electron 壳内置零依赖静态服务器，双击 DMG → 拖入 Applications 即用，与浏览器版数据互通（同一 localStorage 规则）。
+
+## 多租户与账号体系（真实注册/登录）
+
+| 角色 | 能力 |
+|---|---|
+| 平台管理员（系统首个注册账号自动成为） | 管理全部租户与用户：启停租户、变更角色、重置密码 |
+| 企业管理员 | 管理本企业成员（添加成员 / 分配角色） |
+| 企业用户 | 业务操作（拓客 / 内容 / CRM / 报价审批） |
+
+- 注册企业 → 创建独立租户 → 每个租户拥有完全隔离的 Shared Context
+- 密码 SHA-256 + 随机盐哈希存储，会话 7 天有效
+- 审批日志记录真实操作人
+
+## 大模型自定义设置
+
+系统设置 → 大模型设置：OpenAI 兼容协议，内置预设（OpenAI / DeepSeek / 通义千问 / 智谱 / Kimi / Ollama / OpenClaw 本地网关），也可填任意兼容端点。
+
+- 配置后：千人千面内容 / 开发信 / Copilot 使用真实大模型生成（自动回退本地引擎，不中断业务）
+- API Key 仅存本机浏览器；每次调用计数留痕
+- 「测试连接」发起真实请求并显示延迟
+
+## 插件库 / 技能库 / MCP 连接器 / OpenClaw 连接
+
+- **插件库**：内置市场一键安装（Tier Booster / CN Clean / Workflow Audit），支持 URL / JSON 导入；钩子 `onLead` / `onWorkflowDone` / `transform` 真实介入 Agent 执行链
+- **技能库**：技能包 = 可分发的 Agent 编排（内置中东工程商 / 北美品牌商 ODM / 沉默客户再激活包），支持导入导出、一键运行
+- **MCP 连接器**：MCP Streamable HTTP 客户端（JSON-RPC 2.0），真实 `initialize → tools/list → tools/call`，可挂任意 MCP Server
+- **OpenClaw 本地连接**：WebSocket + OpenAI 兼容 HTTP 双通道连接本机 OpenClaw 网关（默认 `ws://127.0.0.1:18789`），断线自动重连，实时日志
+
+## 架构
+
 零依赖、零构建：纯 ES Module + 原生 CSS，本地数据持久化在 `localStorage`。
 
 首页点击 **▶ Golden Path 全链路**，系统会自动跑通：
