@@ -174,6 +174,7 @@ export function seedState() {
     approvals: [],
     audit: [],
     workflows: [],
+    ui: {},             // 视图状态（标签页 / 筛选器等）
   };
 }
 

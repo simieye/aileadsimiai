@@ -29,6 +29,7 @@ function loadSync(org = scope) {
 }
 
 export const state = loadSync() || clone(seedState());
+if (!state.ui) state.ui = {}; // 兼容旧数据：确保视图状态对象存在
 
 let timer = null;
 function flush() {
@@ -53,6 +54,7 @@ export function setScope(orgId) {
   state.length = 0; // 保留引用
   Object.keys(state).forEach((k) => delete state[k]);
   Object.assign(state, next || clone(seedState()));
+  if (!state.ui) state.ui = {};
   save();
   emit('ctx:scope', scope);
   return state;
@@ -122,6 +124,7 @@ export function reset() {
   localStorage.removeItem(storageKey());
   Object.keys(state).forEach((k) => delete state[k]);
   Object.assign(state, clone(seedState()));
+  if (!state.ui) state.ui = {};
   save();
 }
 
